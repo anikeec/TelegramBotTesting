@@ -26,6 +26,7 @@ public class BotProcess extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message msg = update.getMessage(); 
         String txt = msg.getText();
+        BotParameters.setChatId(msg.getChatId()); 
         System.out.println("Received message: " + txt);
         if (txt.equals("/start")) {
             sendMessage(msg, "Hello! I'm a bot!"); 
@@ -37,11 +38,15 @@ public class BotProcess extends TelegramLongPollingBot {
         return BotParameters.TELEGRAMM_BOT_USERNAME;
     }
     
-    private void sendMessage(Message msg, String text) {
+    public void sendMessage(Message msg, String text) {
+        sendMessage(msg.getChatId(), text);
+    }
+    
+    public void sendMessage(long chatId, String text) {
         SendMessage s = new SendMessage();
-        s.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
+        s.setChatId(chatId); 
         s.setText(text);
-        try { //Чтобы не крашнулась программа при вылете Exception 
+        try { 
             execute(s);
         } catch (TelegramApiException e){
             e.printStackTrace();

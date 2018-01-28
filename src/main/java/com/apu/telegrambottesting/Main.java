@@ -15,7 +15,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
  */
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 	ApiContextInitializer.init(); // Инициализируем апи
 	TelegramBotsApi botapi = new TelegramBotsApi();
 	try {
